@@ -34,12 +34,23 @@
     <script src='https://code.jquery.com/jquery-2.1.1.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.8.1/mustache.js'></script>
     <script>
-    $(document).ready(function(){
-      $.get('https://api.github.com/users/tansaku',function(user){
+
+    var addProfileFromUsername = function(login) {
+      $.get('https://api.github.com/users/' + login, function(user){
         var newProfile = Mustache.render($('#profile-template').html(), user);
         $('.profile-container').append(newProfile);
-      })
+      }).error(function() {
+        alert('sorry no user name ' + login);
+      });
+    };
+
+    $(document).ready(function(){
+      $('#add_profile').submit(function(event) {
+        event.preventDefault();
+        addProfileFromUsername($('#username').val());
+      });
     });
+
     </script>
   </body>
 </html>

@@ -4,7 +4,7 @@ class Ajax < Sinatra::Base
 
   get '/' do
   response['Access-Control-Allow-Origin'] = '*'
-  sleep 2
+  # sleep 2
   erb :index
   end
 
