@@ -1,8 +1,10 @@
 require 'sinatra/base'
 
 class Ajax < Sinatra::Base
+
   get '/' do
-    'Hello Ajax!'
+  response['Access-Control-Allow-Origin'] = '*'
+  erb :index
   end
 
   # start the server if ruby file executed directly
