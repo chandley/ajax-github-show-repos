@@ -35,13 +35,16 @@
     <script src='https://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.8.1/mustache.js'></script>
     <script>
 
-    var addProfileFromUsername = function(login) {
-      $.get('https://api.github.com/users/' + login, function(user){
+    var addProfileFromUsername = function(userName) {
+      $.get('https://api.github.com/users/' + userName, function(user){
         var newProfile = Mustache.render($('#profile-template').html(), user);
         $('.profile-container').append(newProfile);
       }).error(function() {
-        alert('sorry no user name ' + login);
+        alert('sorry no user name ' + userName);
+      }).always(function(){ 
+        $('#username').val(''); 
       });
+
     };
 
     $(document).ready(function(){
