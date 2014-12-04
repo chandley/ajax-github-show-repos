@@ -10,7 +10,7 @@
     </form>
 
     <div class='profile-container'>
-        </div>
+    </div>
 
   <template id='profile-template'>
     <div class="profile">
@@ -31,6 +31,10 @@
       </div>
     </template>
 
+    <template id='user-repos-template'>
+      <h3>empty template for test only<h3>
+    </template>
+
     <script src='https://code.jquery.com/jquery-2.1.1.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.8.1/mustache.js'></script>
     <script>
@@ -40,8 +44,12 @@
         var newProfile = Mustache.render($('#profile-template').html(), user);
         $(newProfile).prependTo('.profile-container').hide().slideDown();
       });
-
-      
+  
+      var promise = $.get("https://api.github.com/users/" + userName +"/repos?client_id=<%= ENV['CLIENT_ID'] %>&client_secret=<%= ENV['CLIENT_SECRET'] %>", function(repo_hash){
+        // do we need extra mustache goodness to cope with the array?
+        var second_newProfile = Mustache.render($('#user-repos-template').html(), repo_hash);
+        $(second_newProfile).prependTo('.profile-container').hide().slideDown();
+      });
 
       promise.error(function() {
         alert('sorry no user name ' + userName);
