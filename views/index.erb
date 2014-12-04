@@ -58,20 +58,26 @@
     var addRepoFromReposUrl = function(reposUrl) {
      
       var promise = $.get(reposUrl + "?client_id=<%= ENV['CLIENT_ID'] %>&client_secret=<%= ENV['CLIENT_SECRET'] %>", function(repo_hash){
-        console.log(repo_hash.length);
+        
         for(i = 0; i < repo_hash.length; i++){
+          getCommitsOnRepo(repo_hash[i].url)
           var second_newProfile = Mustache.render($('#user-repos-template').html(), repo_hash[i]);
           $(second_newProfile).appendTo('.profile-container').hide().slideDown();
         }
       });
 
-      promise.error(function() {
-        alert('sorry no user name ' + userName);
-      });
-      promise.always(function(){ 
-        $('#username').val(''); 
+  
+    };
+
+      var getCommitsOnRepo = function(repoUrl) {
+      var promise = $.get(repoUrl + "/commits?client_id=<%= ENV['CLIENT_ID'] %>&client_secret=<%= ENV['CLIENT_SECRET'] %>", function(commitsArray){
+        
+        console.log(commitsArray.length)
+   
+        
       });
 
+     
     };
 
     $(document).ready(function(){
