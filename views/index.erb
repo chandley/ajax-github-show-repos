@@ -38,7 +38,7 @@
       
     </template>
 
-    <template id='commit-count'>
+    <template id='commit-count2'>
       <p> {{updated_at}}</p>
     </template>
 
@@ -67,7 +67,7 @@
       var promise = $.get(reposUrl + "?client_id=<%= ENV['CLIENT_ID'] %>&client_secret=<%= ENV['CLIENT_SECRET'] %>", function(repo_hash){
         
         for(i = 0; i < repo_hash.length; i++){
-
+         getCommitsOnRepo(repo_hash[i].url,repo_hash[i].name)
          console.log(repo_hash[i].name + " has " + getCommitsOnRepo(repo_hash[i].url) + " commits")
           var second_newProfile = Mustache.render($('#user-repos-template').html(), repo_hash[i]);
         
@@ -79,10 +79,10 @@
   
     };
 
-      var getCommitsOnRepo = function(repoUrl) {
+      var getCommitsOnRepo = function(repoUrl,name) {
       var promise = $.get(repoUrl + "/commits?client_id=<%= ENV['CLIENT_ID'] %>&client_secret=<%= ENV['CLIENT_SECRET'] %>", function(commitsArray){
-        var repoName = commitsArray[0].name
-        $("#" + repoName + ".commit-count").val(commitsArray.length);
+        console.log("name is " + name)
+        $("#" + name + " .commit-count").html(commitsArray.length);
         console.log(commitsArray.length);
         return commitsArray.length;
       });
