@@ -35,6 +35,10 @@
       <p> {{ name}} : last updated - {{updated_at}}</p>
     </template>
 
+    <template id='commit-count'>
+      <p> {{updated_at}}</p>
+    </template>
+
     <script src='https://code.jquery.com/jquery-2.1.1.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.8.1/mustache.js'></script>
     <script>
@@ -60,9 +64,12 @@
       var promise = $.get(reposUrl + "?client_id=<%= ENV['CLIENT_ID'] %>&client_secret=<%= ENV['CLIENT_SECRET'] %>", function(repo_hash){
         
         for(i = 0; i < repo_hash.length; i++){
-          getCommitsOnRepo(repo_hash[i].url)
+
+         console.log(repo_hash[i].name + " has " + getCommitsOnRepo(repo_hash[i].url) + " commits")
           var second_newProfile = Mustache.render($('#user-repos-template').html(), repo_hash[i]);
+        
           $(second_newProfile).appendTo('.profile-container').hide().slideDown();
+       
         }
       });
 
@@ -71,10 +78,9 @@
 
       var getCommitsOnRepo = function(repoUrl) {
       var promise = $.get(repoUrl + "/commits?client_id=<%= ENV['CLIENT_ID'] %>&client_secret=<%= ENV['CLIENT_SECRET'] %>", function(commitsArray){
-        
-        console.log(commitsArray.length)
-   
-        
+
+        console.log(commitsArray.length);
+        return commitsArray.length;
       });
 
      
